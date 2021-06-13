@@ -1,0 +1,379 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Project1</title><meta name="generator" content="MATLAB 9.9"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2021-03-17"><meta name="DC.source" content="Project1.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><pre class="codeinput">close <span class="string">all</span>, clear <span class="string">all</span>, clc
+<span class="comment">%Part1</span>
+<span class="comment">%Part1-1</span>
+n = 500000;
+U = rand(1,n);
+X = rand(1,n);
+
+<span class="comment">%Part1-2</span>
+<span class="keyword">for</span> i = 1:1:n
+    X(1,i) = G(U(1,i));
+<span class="keyword">end</span>
+hist = histogram( X , <span class="string">'normalization'</span> , <span class="string">'pdf'</span>);
+title(<span class="string">'The normalized histogram of g(U)'</span>)
+
+<span class="comment">%Part1-3</span>
+MSE_mat = [(MSE(8)) (MSE(16)) (MSE(64))];
+SQNR_mat = [8/(MSE_mat(1)*3) 8/(MSE_mat(2)*3) 8/(MSE_mat(3)*3)];
+
+<span class="comment">%Part1-4</span>
+[Ai_8,Q_8] = Quan(X,8);
+[Ai_16,Q_16] = Quan(X,16);
+[Ai_64,Q_64] = Quan(X,64);
+Quantized = [X; Q_8; Q_16; Q_64];
+figure(1)
+<span class="comment">% hist = histogram( Q_8 , 'normalization' , 'pdf');</span>
+<span class="comment">% figure(2)</span>
+<span class="comment">% hist = histogram( Q_16 , 'normalization' , 'pdf');</span>
+<span class="comment">% figure(3)</span>
+<span class="comment">% hist = histogram( Q_64 , 'normalization' , 'pdf');</span>
+
+
+A = 0;
+B = 0;
+C = 0;
+<span class="keyword">for</span> i = 1:1:n
+
+    A = A + (X(1,i)-Q_8(1,i))^2;
+    B = B + (X(1,i)-Q_16(1,i))^2;
+    C = C + (X(1,i)-Q_64(1,i))^2;
+<span class="keyword">end</span>
+MSE_Quan = [A/n B/n C/n];
+SQNR_Quan = [(8*n)/(3*A) (8*n)/(3*B) (8*n)/(3*C)];
+SQNR_Quan_2 = [mean(Quantized(2,:).^2)/MSE_Quan(1) mean(Quantized(3,:).^2)/MSE_Quan(2) mean(Quantized(4,:).^2)/MSE_Quan(3)];
+disp(<span class="string">'MSE,mat,Quan'</span>);
+disp([MSE_mat;MSE_Quan]);
+disp(<span class="string">'SQNR,mat,Quan'</span>);
+disp([SQNR_mat;SQNR_Quan]);
+
+<span class="comment">% delta = (4/64);</span>
+<span class="comment">% Xhat = [];</span>
+<span class="comment">% for i=1:1:64</span>
+<span class="comment">%     Xhat(i) = -2 + (i-1/2)*delta;</span>
+<span class="comment">% end</span>
+<span class="comment">%</span>
+<span class="comment">% disp(Xhat)</span>
+
+<span class="comment">%Part1-5</span>
+Xhat_8 = [];
+[Ai_t_8,Xhat_t_8] = Quan_NonUniform(X,8,Ai_8);
+Ai_8 = [Ai_8; Ai_t_8 ];
+Xhat_8 = [Xhat_8, Xhat_t_8];
+Quantized_8 = [ ];
+MSE_8_Lloyd = [ MSE_Quan(1)];
+k = 1;
+bool =  true;
+<span class="comment">%for i = 1:1:20</span>
+<span class="keyword">while</span> bool
+    Q_8_iterative = Quan_Non(X,8,Xhat_t_8);
+    Quantized_8 = [Quantized_8;Q_8_iterative];
+    MSE_8_Lloyd = [MSE_8_Lloyd;(mean((X-Q_8_iterative).^2))];
+
+    [Ai_t_8,Xhat_t_8] = Quan_NonUniform(X,8,Ai_t_8);
+    Ai_8 = [Ai_8; Ai_t_8 ];
+    Xhat_8 = [Xhat_8; Xhat_t_8];
+    bool = (MSE_8_Lloyd(k+1) &lt; MSE_8_Lloyd(k)*(0.995));
+    k = k + 1;
+<span class="keyword">end</span>
+
+Xhat_16 = [];
+[Ai_t_16,Xhat_t_16] = Quan_NonUniform(X,16,Ai_16);
+Ai_16 = [Ai_16; Ai_t_16 ];
+Xhat_16 = [Xhat_16, Xhat_t_16];
+Quantized_16 = [ ];
+MSE_16_Lloyd = [ MSE_Quan(2)];
+k = 1;
+bool =  true;
+<span class="comment">%for i = 1:1:20</span>
+<span class="keyword">while</span> bool
+    Q_16_iterative = Quan_Non(X,16,Xhat_t_16);
+    Quantized_16 = [Quantized_16;Q_16_iterative];
+    MSE_16_Lloyd = [MSE_16_Lloyd;(mean((X-Q_16_iterative).^2))];
+
+    [Ai_t_16,Xhat_t_16] = Quan_NonUniform(X,16,Ai_t_16);
+    Ai_16 = [Ai_16; Ai_t_16 ];
+    Xhat_16 = [Xhat_16; Xhat_t_16];
+    bool = (MSE_16_Lloyd(k+1) &lt; MSE_16_Lloyd(k)*(0.995));
+    k = k + 1;
+<span class="keyword">end</span>
+
+Xhat_64 = [];
+[Ai_t_64,Xhat_t_64] = Quan_NonUniform(X,64,Ai_64);
+Ai_64 = [Ai_64; Ai_t_64 ];
+Xhat_64 = [Xhat_64, Xhat_t_64];
+Quantized_64 = [ ];
+MSE_64_Lloyd = [ MSE_Quan(3)];
+k = 1;
+bool =  true;
+<span class="comment">%for i = 1:1:20</span>
+<span class="keyword">while</span> bool
+    Q_64_iterative = Quan_Non(X,64,Xhat_t_64);
+    Quantized_64 = [Quantized_64;Q_64_iterative];
+    MSE_64_Lloyd = [MSE_64_Lloyd;(mean((X-Q_64_iterative).^2))];
+
+    [Ai_t_64,Xhat_t_64] = Quan_NonUniform(X,64,Ai_t_64);
+    Ai_64 = [Ai_64; Ai_t_64 ];
+    Xhat_64 = [Xhat_64; Xhat_t_64];
+    bool = (MSE_64_Lloyd(k+1) &lt; MSE_64_Lloyd(k)*(0.995));
+    k = k + 1;
+<span class="keyword">end</span>
+MSE_Lloyd = [MSE_8_Lloyd(length(MSE_8_Lloyd)) MSE_16_Lloyd(length(MSE_16_Lloyd)) MSE_64_Lloyd(length(MSE_64_Lloyd))]
+SQNR_Lloyd = [8/(3*MSE_8_Lloyd(length(MSE_8_Lloyd))) 8/(3*MSE_16_Lloyd(length(MSE_16_Lloyd))) 8/(3*MSE_64_Lloyd(length(MSE_64_Lloyd)))]
+
+figure(2)
+subplot(1,3,1)
+plot([1:1: size(MSE_8_Lloyd,1)],MSE_8_Lloyd,<span class="string">'o'</span>);
+title(<span class="string">'N = 8'</span>);
+subplot(1,3,2)
+plot([1:1: size(MSE_16_Lloyd,1)],MSE_16_Lloyd,<span class="string">'o'</span>);
+title(<span class="string">'N = 16'</span>);
+subplot(1,3,3)
+plot([1:1: size(MSE_64_Lloyd,1)],MSE_64_Lloyd,<span class="string">'o'</span>);
+title(<span class="string">'N = 64'</span>);
+
+figure(3);
+DENEM = X - Quantized_64(size(Quantized_64,1),:) ;
+<span class="comment">%DENEM = X - Quantized(4,:) ;</span>
+hist = histogram( DENEM , <span class="string">'normalization'</span> , <span class="string">'pdf'</span>);
+title(<span class="string">'Quantization error for N = 16'</span>);
+<span class="comment">%axis([-0.3 0.3 0 3]);</span>
+
+<span class="comment">%DENEM = Quantized_8(size(Quantized_8,1),:) ;</span>
+</pre><pre class="codeoutput">MSE,mat,Quan
+    0.0214    0.0052    0.0003
+    0.0214    0.0052    0.0003
+
+SQNR,mat,Quan
+   1.0e+03 *
+
+    0.1249    0.5088    8.1888
+    0.1248    0.5097    8.1975
+
+
+MSE_Lloyd =
+
+    0.0093    0.0026    0.0003
+
+
+SQNR_Lloyd =
+
+   1.0e+03 *
+
+    0.2875    1.0199    8.2205
+
+</pre><img vspace="5" hspace="5" src="Project1_01.png" alt=""> <img vspace="5" hspace="5" src="Project1_02.png" alt=""> <img vspace="5" hspace="5" src="Project1_03.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2020b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+close all, clear all, clc
+%Part1
+%Part1-1
+n = 500000;
+U = rand(1,n);
+X = rand(1,n);
+
+%Part1-2
+for i = 1:1:n
+    X(1,i) = G(U(1,i));
+end
+hist = histogram( X , 'normalization' , 'pdf');
+title('The normalized histogram of g(U)')
+
+%Part1-3
+MSE_mat = [(MSE(8)) (MSE(16)) (MSE(64))];
+SQNR_mat = [8/(MSE_mat(1)*3) 8/(MSE_mat(2)*3) 8/(MSE_mat(3)*3)];
+        
+%Part1-4
+[Ai_8,Q_8] = Quan(X,8);
+[Ai_16,Q_16] = Quan(X,16);
+[Ai_64,Q_64] = Quan(X,64);
+Quantized = [X; Q_8; Q_16; Q_64];
+figure(1)
+% hist = histogram( Q_8 , 'normalization' , 'pdf');
+% figure(2)
+% hist = histogram( Q_16 , 'normalization' , 'pdf');
+% figure(3)
+% hist = histogram( Q_64 , 'normalization' , 'pdf');
+
+
+A = 0;
+B = 0;
+C = 0;
+for i = 1:1:n
+    
+    A = A + (X(1,i)-Q_8(1,i))^2;
+    B = B + (X(1,i)-Q_16(1,i))^2;
+    C = C + (X(1,i)-Q_64(1,i))^2;
+end
+MSE_Quan = [A/n B/n C/n];
+SQNR_Quan = [(8*n)/(3*A) (8*n)/(3*B) (8*n)/(3*C)];
+SQNR_Quan_2 = [mean(Quantized(2,:).^2)/MSE_Quan(1) mean(Quantized(3,:).^2)/MSE_Quan(2) mean(Quantized(4,:).^2)/MSE_Quan(3)];
+disp('MSE,mat,Quan');
+disp([MSE_mat;MSE_Quan]);
+disp('SQNR,mat,Quan');
+disp([SQNR_mat;SQNR_Quan]);
+
+% delta = (4/64);
+% Xhat = [];
+% for i=1:1:64
+%     Xhat(i) = -2 + (i-1/2)*delta;
+% end
+% 
+% disp(Xhat)
+
+%Part1-5
+Xhat_8 = [];
+[Ai_t_8,Xhat_t_8] = Quan_NonUniform(X,8,Ai_8);
+Ai_8 = [Ai_8; Ai_t_8 ];
+Xhat_8 = [Xhat_8, Xhat_t_8];
+Quantized_8 = [ ];
+MSE_8_Lloyd = [ MSE_Quan(1)];
+k = 1;
+bool =  true;
+%for i = 1:1:20   
+while bool
+    Q_8_iterative = Quan_Non(X,8,Xhat_t_8);
+    Quantized_8 = [Quantized_8;Q_8_iterative];
+    MSE_8_Lloyd = [MSE_8_Lloyd;(mean((X-Q_8_iterative).^2))];
+    
+    [Ai_t_8,Xhat_t_8] = Quan_NonUniform(X,8,Ai_t_8);
+    Ai_8 = [Ai_8; Ai_t_8 ];
+    Xhat_8 = [Xhat_8; Xhat_t_8];
+    bool = (MSE_8_Lloyd(k+1) < MSE_8_Lloyd(k)*(0.995));
+    k = k + 1;
+end
+
+Xhat_16 = [];
+[Ai_t_16,Xhat_t_16] = Quan_NonUniform(X,16,Ai_16);
+Ai_16 = [Ai_16; Ai_t_16 ];
+Xhat_16 = [Xhat_16, Xhat_t_16];
+Quantized_16 = [ ];
+MSE_16_Lloyd = [ MSE_Quan(2)];
+k = 1;
+bool =  true;
+%for i = 1:1:20   
+while bool
+    Q_16_iterative = Quan_Non(X,16,Xhat_t_16);
+    Quantized_16 = [Quantized_16;Q_16_iterative];
+    MSE_16_Lloyd = [MSE_16_Lloyd;(mean((X-Q_16_iterative).^2))];
+    
+    [Ai_t_16,Xhat_t_16] = Quan_NonUniform(X,16,Ai_t_16);
+    Ai_16 = [Ai_16; Ai_t_16 ];
+    Xhat_16 = [Xhat_16; Xhat_t_16];
+    bool = (MSE_16_Lloyd(k+1) < MSE_16_Lloyd(k)*(0.995));
+    k = k + 1;
+end
+
+Xhat_64 = [];
+[Ai_t_64,Xhat_t_64] = Quan_NonUniform(X,64,Ai_64);
+Ai_64 = [Ai_64; Ai_t_64 ];
+Xhat_64 = [Xhat_64, Xhat_t_64];
+Quantized_64 = [ ];
+MSE_64_Lloyd = [ MSE_Quan(3)];
+k = 1;
+bool =  true;
+%for i = 1:1:20   
+while bool
+    Q_64_iterative = Quan_Non(X,64,Xhat_t_64);
+    Quantized_64 = [Quantized_64;Q_64_iterative];
+    MSE_64_Lloyd = [MSE_64_Lloyd;(mean((X-Q_64_iterative).^2))];
+    
+    [Ai_t_64,Xhat_t_64] = Quan_NonUniform(X,64,Ai_t_64);
+    Ai_64 = [Ai_64; Ai_t_64 ];
+    Xhat_64 = [Xhat_64; Xhat_t_64];
+    bool = (MSE_64_Lloyd(k+1) < MSE_64_Lloyd(k)*(0.995));
+    k = k + 1;
+end
+MSE_Lloyd = [MSE_8_Lloyd(length(MSE_8_Lloyd)) MSE_16_Lloyd(length(MSE_16_Lloyd)) MSE_64_Lloyd(length(MSE_64_Lloyd))]
+SQNR_Lloyd = [8/(3*MSE_8_Lloyd(length(MSE_8_Lloyd))) 8/(3*MSE_16_Lloyd(length(MSE_16_Lloyd))) 8/(3*MSE_64_Lloyd(length(MSE_64_Lloyd)))]
+
+figure(2)
+subplot(1,3,1)
+plot([1:1: size(MSE_8_Lloyd,1)],MSE_8_Lloyd,'o');
+title('N = 8');
+subplot(1,3,2)
+plot([1:1: size(MSE_16_Lloyd,1)],MSE_16_Lloyd,'o');
+title('N = 16');
+subplot(1,3,3)
+plot([1:1: size(MSE_64_Lloyd,1)],MSE_64_Lloyd,'o');
+title('N = 64');
+
+figure(3);
+DENEM = X - Quantized_64(size(Quantized_64,1),:) ;
+%DENEM = X - Quantized(4,:) ;
+hist = histogram( DENEM , 'normalization' , 'pdf');
+title('Quantization error for N = 16');
+%axis([-0.3 0.3 0 3]);
+
+%DENEM = Quantized_8(size(Quantized_8,1),:) ;
+
+
+##### SOURCE END #####
+--></body></html>
